@@ -1,5 +1,5 @@
 import {$, extend} from "./utils";
-import elementResizeEvent from 'element-resize-event';
+import elementResizeEvent from './lib/element-resize-event';
 import exportable from "exportable";
 
 var Clay = function() {
@@ -9,8 +9,8 @@ var Clay = function() {
       var style;
       
       this.selector = selector;
+      this.el = typeof selector === 'string' ? $(selector) : selector;
       this.options = extend(defaults, options);
-      this.el = $(selector);
       this.eventHanlers = {};
       
       style = this.el.style;
@@ -41,7 +41,8 @@ var Clay = function() {
         if (!cb) return;
         
         var size = this.el.getBoundingClientRect();
-        cb(size);
+        
+        cb(size, this.el);
       }.bind(this));
     }
 
